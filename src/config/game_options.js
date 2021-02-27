@@ -1,4 +1,4 @@
-let gameOptions = {
+const gameOptions = {
 
   // platform speed range, in pixels per second
   platformSpeedRange: [300, 300],
@@ -38,7 +38,7 @@ let gameOptions = {
   coinPercent: 25,
 
   // % of probability a fire appears on the platform
-  firePercent: 25
-}
+  firePercent: 25,
+};
 
 export default gameOptions;

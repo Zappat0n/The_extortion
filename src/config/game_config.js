@@ -1,9 +1,10 @@
+import Phaser from 'phaser';
 import preloadGame from '../scenes/preloader';
 import playGame from '../scenes/play';
-import './constants';
 import { GAME_HEIGHT, GAME_WIDTH } from './constants';
 
-let gameConfig = {
+
+const gameConfig = {
   type: Phaser.AUTO,
   width: GAME_WIDTH,
   height: GAME_HEIGHT,
@@ -12,8 +13,8 @@ let gameConfig = {
 
   // physics settings
   physics: {
-      default: "arcade"
-  }
-}
+    default: 'arcade',
+  },
+};
 
 export default gameConfig;

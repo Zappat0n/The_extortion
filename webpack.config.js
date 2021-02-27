@@ -13,7 +13,7 @@ module.exports = {
     contentBase: './dist',
   },
   entry: {
-    index: './src/index.js'
+    index: './src/index.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -30,7 +30,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
-      'typeof WEBGL_RENDERER': JSON.stringify(true)
+      'typeof WEBGL_RENDERER': JSON.stringify(true),
     }),
   ],
   output: {
@@ -52,10 +52,10 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              "@babel/preset-env",
-            ]
-          }
-        }
+              '@babel/preset-env',
+            ],
+          },
+        },
       },
       {
         test: /\.(sa|sc|c)ss$/,
