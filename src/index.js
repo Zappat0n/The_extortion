@@ -24,3 +24,5 @@ window.onload = () => {
   resize();
   window.addEventListener('resize', resize, false);
 };
+
+export default game;

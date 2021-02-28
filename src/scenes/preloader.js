@@ -9,7 +9,7 @@ class preloadGame extends Phaser.Scene {
     this.load.image('platform', './assets/platform.png');
 
     // player is a sprite sheet made by 24x48 pixels
-    this.load.spritesheet('player', './assets/player_new.png', {
+    this.load.spritesheet('player', './assets/player.png', {
       frameWidth: 28,
       frameHeight: 51,
     });
@@ -65,6 +65,26 @@ class preloadGame extends Phaser.Scene {
         end: 4,
       }),
       frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 4 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'turn',
+      frames: [{ key: 'player', frame: 4 }],
+      frameRate: 20,
+    });
+
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 4 }),
+      frameRate: 10,
       repeat: -1,
     });
 

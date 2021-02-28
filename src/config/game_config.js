@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
 import preloadGame from '../scenes/preloader';
-import playGame from '../scenes/play';
-import { GAME_HEIGHT, GAME_WIDTH } from './constants';
+import playGame from '../scenes/play_game';
+import gameOptions from './game_options';
 
 
 const gameConfig = {
   type: Phaser.AUTO,
-  width: GAME_WIDTH,
-  height: GAME_HEIGHT,
+  width: gameOptions.GAME_WIDTH,
+  height: gameOptions.GAME_HEIGHT,
   scene: [preloadGame, playGame],
   backgroundColor: 0x0c88c7,
 
