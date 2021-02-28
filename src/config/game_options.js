@@ -1,6 +1,9 @@
 const gameOptions = {
-  GAME_WIDTH: 1334,
-  GAME_HEIGHT: 750,
+  WORLD_WIDTH: 1334,
+  WORLD_HEIGHT: 750,
+  TILE_HEIGHT: 32,
+  TILE_WIDTH: 32,
+  SPACING: 300,
   // player gravity
   PLAYER_GRAVITY: 900,
 

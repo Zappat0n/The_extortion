@@ -6,8 +6,8 @@ import gameOptions from './game_options';
 
 const gameConfig = {
   type: Phaser.AUTO,
-  width: gameOptions.GAME_WIDTH,
-  height: gameOptions.GAME_HEIGHT,
+  width: gameOptions.WORLD_WIDTH,
+  height: gameOptions.WORLD_HEIGHT,
   scene: [preloadGame, playGame],
   backgroundColor: 0x0c88c7,
 
