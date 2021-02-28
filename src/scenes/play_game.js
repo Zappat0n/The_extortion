@@ -37,11 +37,11 @@ class playGame extends Phaser.Scene {
     this.platforms.enableBody = true;
     this.platforms.createMultiple({
       key: 'platform',
-      quantity: 250,
+      quantity: 2500,
       active: false,
     });
     const bottom = gameOptions.WORLD_HEIGHT - gameOptions.TILE_HEIGHT;
-    const top = gameOptions.TILE_HEIGHT;
+    const top = gameOptions.TILE_HEIGHT - 40;
     for (let y = bottom; y > top - gameOptions.TILE_HEIGHT; y -= gameOptions.SPACING) {
       this.addPlatform(y);
     }
@@ -49,6 +49,9 @@ class playGame extends Phaser.Scene {
 
   create() {
     this.createPlatforms();
+    this.timer = this.time.addEvent({
+      delay: 1500, callback: this.addPlatform, callbackScope: this, loop: true,
+    });
   }
 
   jump() {
