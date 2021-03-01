@@ -12,8 +12,8 @@ class playGame extends Phaser.Scene {
     tile.y = y;
     tile.active = true;
     tile.visible = true;
-    // tile.body.setVelocityY(110);
     this.physics.add.existing(tile);
+    tile.body.setVelocityY(gameOptions.SCROLL_SPEED);
     tile.body.setImmovable(true);
     tile.body.allowGravity = false;
   }
@@ -24,8 +24,10 @@ class playGame extends Phaser.Scene {
     }
     const tilesNeeded = Math.ceil(gameOptions.WORLD_WIDTH / gameOptions.TILE_WIDTH);
     const hole = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
+    const hole2 = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
+    const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1, hole2 + 2, hole2 + 3];
     for (let i = 0; i < tilesNeeded; i += 1) {
-      if (i < hole || i > hole + 3) {
+      if (!holes.includes(i)) {
         this.addTile(i * gameOptions.TILE_WIDTH, y);
       }
     }
@@ -62,13 +64,12 @@ class playGame extends Phaser.Scene {
   create() {
     this.createPlatforms();
     this.createPlayer();
-    // this.timer = this.time.addEvent({
-    //  delay: 1500, callback: this.addPlatform, callbackScope: this, loop: true,
-    // });
+    this.timer = this.time.addEvent({
+      delay: 3500, callback: this.addPlatform, callbackScope: this, loop: true,
+    });
   }
 
   jump() {
-    console.log(this.playerJumps);
     if ((!this.dying) && (this.player.body.touching.down
       || (this.playerJumps > 0 && this.playerJumps < gameOptions.JUMPS))) {
       if (this.player.body.touching.down) {
@@ -76,10 +77,11 @@ class playGame extends Phaser.Scene {
       }
       this.player.setVelocityY(gameOptions.JUMP_FORCE * -1);
       this.playerJumps += 1;
-
-      // stops animation
-      //this.player.anims.stop();
     }
+  }
+
+  gameOver() {
+    this.scene.start('PlayGame');
   }
 
   update() {
@@ -92,6 +94,11 @@ class playGame extends Phaser.Scene {
     } else {
       this.player.setVelocityX(0);
       this.player.anims.play('turn');
+    }
+
+
+    if (this.player.body.position.y >= gameOptions.WORLD_HEIGHT - this.player.body.height) {
+      this.gameOver();
     }
   }
 }
