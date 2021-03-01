@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import gameOptions from '../config/game_options';
 
-class playGame extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
   constructor() {
-    super('PlayGame');
+    super('gameScene');
   }
 
   addTile(x, y) {
@@ -39,7 +39,6 @@ class playGame extends Phaser.Scene {
   }
 
   createPlayer() {
-    // Add the player to the game by creating a new sprite
     this.player = this.physics.add.sprite(gameOptions.WORLD_WIDTH / 2, gameOptions.WORLD_HEIGHT - (gameOptions.SPACING * 2 + (3 * gameOptions.TILE_HEIGHT)), 'player');
     this.player.setGravityY(gameOptions.PLAYER_GRAVITY);
     this.player.body.setCollideWorldBounds(true);
@@ -103,7 +102,6 @@ class playGame extends Phaser.Scene {
       rock.setCollideWorldBounds(true);
       rock.setGravityY(gameOptions.PLAYER_GRAVITY);
       rock.setVelocity(Phaser.Math.Between(-200, 200), 20);
-      //rock.anims.play('rotate');
       this.rockGroup.add(rock);
       this.physics.add.collider(rock, this.platforms);
     }
@@ -174,7 +172,6 @@ class playGame extends Phaser.Scene {
   }
 
   gameOver() {
-    console.log('end');
     this.scene.start('PlayGame');
   }
 
@@ -210,5 +207,3 @@ class playGame extends Phaser.Scene {
     }, this);
   }
 }
-
-export default playGame;

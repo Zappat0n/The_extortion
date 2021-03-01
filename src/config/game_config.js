@@ -1,14 +1,16 @@
 import Phaser from 'phaser';
-import preloadGame from '../scenes/preloader';
-import playGame from '../scenes/play_game';
+import PreloadScene from '../scene/preload';
+import BootScene from '../scene/boot';
+import GameScene from '../scene/game';
 import gameOptions from './game_options';
+import TitleScene from '../scene/title';
 
 
 const gameConfig = {
   type: Phaser.AUTO,
   width: gameOptions.WORLD_WIDTH,
   height: gameOptions.WORLD_HEIGHT,
-  scene: [preloadGame, playGame],
+  scene: [BootScene, PreloadScene, TitleScene, GameScene],
   backgroundColor: 0x0c88c7,
 
   // physics settings
