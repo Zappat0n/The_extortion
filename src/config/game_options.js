@@ -15,7 +15,7 @@ const gameOptions = {
   JUMPS: 2,
 
   // % of probability a coin appears on the platform
-  COIN_PERCENT: 25,
+  COIN_PERCENT: 5,
 
   // % of probability a fire appears on the platform
   FIRE_PERCENT: 25,

@@ -59,6 +59,17 @@ class preloadGame extends Phaser.Scene {
       repeat: -1,
     });
 
+    this.anims.create({
+      key: 'rotate',
+      frames: this.anims.generateFrameNumbers('coin', {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 15,
+      yoyo: true,
+      repeat: -1,
+    });
+
     this.scene.start('PlayGame');
   }
 }

@@ -16,6 +16,25 @@ class playGame extends Phaser.Scene {
     tile.body.setVelocityY(gameOptions.SCROLL_SPEED);
     tile.body.setImmovable(true);
     tile.body.allowGravity = false;
+
+    if (Phaser.Math.Between(1, 100) <= gameOptions.COIN_PERCENT) {
+      if (this.coinPool.getLength()) {
+        const coin = this.coinPool.getFirst();
+        coin.x = x;
+        coin.y = y - 45;
+        coin.alpha = 1;
+        coin.active = true;
+        coin.visible = true;
+        this.coinPool.remove(coin);
+      } else {
+        const coin = this.physics.add.sprite(x, y - 45, 'coin');
+        coin.setImmovable(true);
+        coin.setVelocityY(gameOptions.SCROLL_SPEED);
+        coin.anims.play('rotate');
+        coin.setDepth(2);
+        this.coinGroup.add(coin);
+      }
+    }
   }
 
   addPlatform(y) {
@@ -61,9 +80,39 @@ class playGame extends Phaser.Scene {
     }
   }
 
+  collectCoin(player, coin) {
+    console.log('coin');
+
+    this.tweens.add({
+      targets: coin,
+      y: coin.y - 100,
+      alpha: 0,
+      duration: 800,
+      ease: 'Cubic.easeOut',
+      callbackScope: this,
+      onComplete() {
+        console.log('coin');
+        this.coinGroup.killAndHide(coin);
+        this.coinGroup.remove(coin);
+      },
+    });
+  }
+
+  createCoins() {
+    this.coinGroup = this.add.group({
+      removeCallback(coin) { coin.scene.coinPool.add(coin); },
+    });
+    this.coinPool = this.add.group({
+      removeCallback(coin) { coin.scene.coinGroup.add(coin); },
+    });
+  }
+
   create() {
+    this.createCoins();
     this.createPlatforms();
     this.createPlayer();
+    this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
+
     this.timer = this.time.addEvent({
       delay: 3500, callback: this.addPlatform, callbackScope: this, loop: true,
     });
@@ -100,6 +149,13 @@ class playGame extends Phaser.Scene {
     if (this.player.body.position.y >= gameOptions.WORLD_HEIGHT - this.player.body.height) {
       this.gameOver();
     }
+
+    this.coinGroup.getChildren().forEach((coin) => {
+      if (coin.x < -coin.displayWidth / 2) {
+        this.coinGroup.killAndHide(coin);
+        this.coinGroup.remove(coin);
+      }
+    }, this);
   }
 }
 
