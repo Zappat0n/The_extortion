@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import gameOptions from '../config/game_options';
 // preloadGame scene
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -28,11 +29,7 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 70,
     });
 
-    // mountains are a sprite sheet made by 512x512 pixels
-    this.load.spritesheet('mountain', './assets/mountain.png', {
-      frameWidth: 512,
-      frameHeight: 512,
-    });
+    this.load.image('button1', './assets/button1.png');
   }
 
   create() {
@@ -79,6 +76,9 @@ export default class PreloadScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.scene.start('titleScene');
+    this.timer = this.time.addEvent({
+      delay: 3000, callback: this.scene.start('titleScene'), callbackScope: this,
+    });
+
   }
 }
