@@ -20,6 +20,8 @@ class preloadGame extends Phaser.Scene {
       frameHeight: 20,
     });
 
+    this.load.image('rock', './assets/rock.png');
+
     // the firecamp is a sprite sheet made by 32x58 pixels
     this.load.spritesheet('fire', './assets/fire.png', {
       frameWidth: 40,
@@ -65,6 +67,13 @@ class preloadGame extends Phaser.Scene {
         start: 0,
         end: 5,
       }),
+      frameRate: 15,
+      yoyo: true,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'rotate',
+
       frameRate: 15,
       yoyo: true,
       repeat: -1,

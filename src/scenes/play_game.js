@@ -17,24 +17,7 @@ class playGame extends Phaser.Scene {
     tile.body.setImmovable(true);
     tile.body.allowGravity = false;
 
-    if (Phaser.Math.Between(1, 100) <= gameOptions.COIN_PERCENT) {
-      if (this.coinPool.getLength()) {
-        const coin = this.coinPool.getFirst();
-        coin.x = x;
-        coin.y = y - 45;
-        coin.alpha = 1;
-        coin.active = true;
-        coin.visible = true;
-        this.coinPool.remove(coin);
-      } else {
-        const coin = this.physics.add.sprite(x, y - 45, 'coin');
-        coin.setImmovable(true);
-        coin.setVelocityY(gameOptions.SCROLL_SPEED);
-        coin.anims.play('rotate');
-        coin.setDepth(2);
-        this.coinGroup.add(coin);
-      }
-    }
+    this.createCoin(x, y);
   }
 
   addPlatform(y) {
@@ -49,6 +32,9 @@ class playGame extends Phaser.Scene {
       if (!holes.includes(i)) {
         this.addTile(i * gameOptions.TILE_WIDTH, y);
       }
+    }
+    if (this.player) {
+      this.createRock();
     }
   }
 
@@ -80,9 +66,50 @@ class playGame extends Phaser.Scene {
     }
   }
 
-  collectCoin(player, coin) {
-    console.log('coin');
+  createCoin(x, y) {
+    if (Phaser.Math.Between(1, 100) <= gameOptions.COIN_PERCENT) {
+      if (this.coinPool.getLength()) {
+        const coin = this.coinPool.getFirst();
+        coin.x = x;
+        coin.y = y - 45;
+        coin.alpha = 1;
+        coin.active = true;
+        coin.visible = true;
+        this.coinPool.remove(coin);
+      } else {
+        const coin = this.physics.add.sprite(x, y - 45, 'coin');
+        coin.setImmovable(true);
+        coin.setVelocityY(gameOptions.SCROLL_SPEED);
+        coin.anims.play('rotate');
+        coin.setDepth(2);
+        this.coinGroup.add(coin);
+      }
+    }
+  }
 
+  createRock() {
+    const x = (this.player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    if (this.rockPool.getLength()) {
+      const rock = this.rockPool.getFirst();
+      rock.x = x;
+      rock.y = 24;
+      rock.alpha = 1;
+      rock.active = true;
+      rock.visible = true;
+      this.rockPool.remove(rock);
+    } else {
+      const rock = this.physics.add.sprite(x, 24, 'rock');
+      rock.setBounce(1);
+      rock.setCollideWorldBounds(true);
+      rock.setGravityY(gameOptions.PLAYER_GRAVITY);
+      rock.setVelocity(Phaser.Math.Between(-200, 200), 20);
+      //rock.anims.play('rotate');
+      this.rockGroup.add(rock);
+      this.physics.add.collider(rock, this.platforms);
+    }
+  }
+
+  collectCoin(player, coin) {
     this.tweens.add({
       targets: coin,
       y: coin.y - 100,
@@ -91,11 +118,17 @@ class playGame extends Phaser.Scene {
       ease: 'Cubic.easeOut',
       callbackScope: this,
       onComplete() {
-        console.log('coin');
         this.coinGroup.killAndHide(coin);
         this.coinGroup.remove(coin);
       },
     });
+  }
+
+  hitRock(player) {
+    this.physics.pause();
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+    this.dying = true;
   }
 
   createCoins() {
@@ -107,11 +140,22 @@ class playGame extends Phaser.Scene {
     });
   }
 
+  createRocks() {
+    this.rockGroup = this.add.group({
+      removeCallback(rock) { rock.scene.rockPool.add(rock); },
+    });
+    this.rockPool = this.add.group({
+      removeCallback(rock) { rock.scene.rockGroup.add(rock); },
+    });
+  }
+
   create() {
     this.createCoins();
     this.createPlatforms();
     this.createPlayer();
+    this.createRocks();
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
+    this.physics.add.collider(this.player, this.rockGroup, this.hitRock, null, this);
 
     this.timer = this.time.addEvent({
       delay: 3500, callback: this.addPlatform, callbackScope: this, loop: true,
@@ -130,6 +174,7 @@ class playGame extends Phaser.Scene {
   }
 
   gameOver() {
+    console.log('end');
     this.scene.start('PlayGame');
   }
 
@@ -150,8 +195,15 @@ class playGame extends Phaser.Scene {
       this.gameOver();
     }
 
+    this.rockGroup.getChildren().forEach((rock) => {
+      if (rock.y >= gameOptions.WORLD_HEIGHT - rock.height) {
+        this.rockGroup.killAndHide(rock);
+        this.rockGroup.remove(rock);
+      }
+    }, this);
+
     this.coinGroup.getChildren().forEach((coin) => {
-      if (coin.x < -coin.displayWidth / 2) {
+      if (coin.y < -coin.displayWidth / 2) {
         this.coinGroup.killAndHide(coin);
         this.coinGroup.remove(coin);
       }
