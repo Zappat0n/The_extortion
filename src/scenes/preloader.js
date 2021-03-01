@@ -34,56 +34,27 @@ class preloadGame extends Phaser.Scene {
   }
 
   create() {
-    // setting player animation
-    this.anims.create({
-      key: 'run',
-      frames: this.anims.generateFrameNumbers('player', {
-        start: 0,
-        end: 4,
-      }),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    // setting coin animation
-    this.anims.create({
-      key: 'rotate',
-      frames: this.anims.generateFrameNumbers('coin', {
-        start: 0,
-        end: 5,
-      }),
-      frameRate: 15,
-      yoyo: true,
-      repeat: -1,
-    });
-
-    // setting fire animation
-    this.anims.create({
-      key: 'burn',
-      frames: this.anims.generateFrameNumbers('fire', {
-        start: 0,
-        end: 4,
-      }),
-      frameRate: 15,
-      repeat: -1,
-    });
-
     this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 4 }),
+      frames: this.anims.generateFrameNumbers(
+        'player', { start: 0, end: 6 },
+      ),
       frameRate: 10,
       repeat: -1,
     });
 
     this.anims.create({
       key: 'turn',
-      frames: [{ key: 'player', frame: 4 }],
-      frameRate: 20,
+      frames: [{ key: 'player', frame: 6 }],
+      frameRate: 10,
+      repeat: -1,
     });
 
     this.anims.create({
       key: 'right',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 4 }),
+      frames: this.anims.generateFrameNumbers(
+        'player', { start: 7, end: 13 },
+      ),
       frameRate: 10,
       repeat: -1,
     });
