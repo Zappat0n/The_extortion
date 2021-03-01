@@ -8,7 +8,7 @@ const gameOptions = {
   PLAYER_GRAVITY: 900,
 
   // player jump force
-  JUMP_FORCE: 400,
+  JUMP_FORCE: 500,
 
   // consecutive jumps allowed
   JUMPS: 2,

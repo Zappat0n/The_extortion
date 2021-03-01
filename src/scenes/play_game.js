@@ -34,17 +34,14 @@ class playGame extends Phaser.Scene {
   createPlayer() {
     // Add the player to the game by creating a new sprite
     this.player = this.physics.add.sprite(gameOptions.WORLD_WIDTH / 2, gameOptions.WORLD_HEIGHT - (gameOptions.SPACING * 2 + (3 * gameOptions.TILE_HEIGHT)), 'player');
-    // Set the players anchor point to be in the middle horizontally
-    // this.player.anchor.setTo(0.5, 1.0);
-    // Enable physics on the player
-    // Make the player fall by applying gravity
     this.player.setGravityY(gameOptions.PLAYER_GRAVITY);
-    // Make the player collide with the game boundaries
     this.player.body.setCollideWorldBounds(true);
-    // Make the player bounce a little
     this.player.setBounce(0.1);
     this.physics.add.collider(this.player, this.platforms);
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.playerJumps = 0;
+    this.dying = false;
+    this.input.on('pointerdown', this.jump, this);
   }
 
   createPlatforms() {
@@ -65,22 +62,23 @@ class playGame extends Phaser.Scene {
   create() {
     this.createPlatforms();
     this.createPlayer();
-    //this.timer = this.time.addEvent({
+    // this.timer = this.time.addEvent({
     //  delay: 1500, callback: this.addPlatform, callbackScope: this, loop: true,
-    //});
+    // });
   }
 
   jump() {
+    console.log(this.playerJumps);
     if ((!this.dying) && (this.player.body.touching.down
-      || (this.playerJumps > 0 && this.playerJumps < gameOptions.jumps))) {
+      || (this.playerJumps > 0 && this.playerJumps < gameOptions.JUMPS))) {
       if (this.player.body.touching.down) {
         this.playerJumps = 0;
       }
-      this.player.setVelocityY(gameOptions.jumpForce * -1);
+      this.player.setVelocityY(gameOptions.JUMP_FORCE * -1);
       this.playerJumps += 1;
 
       // stops animation
-      this.player.anims.stop();
+      //this.player.anims.stop();
     }
   }
 
@@ -94,10 +92,6 @@ class playGame extends Phaser.Scene {
     } else {
       this.player.setVelocityX(0);
       this.player.anims.play('turn');
-    }
-
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-360);
     }
   }
 }
