@@ -35,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
     }
     if (this.player) {
       this.createRock();
+      this.addPoints(1);
     }
   }
 
@@ -45,7 +46,6 @@ export default class GameScene extends Phaser.Scene {
     this.player.setBounce(0.1);
     this.cursors = this.input.keyboard.createCursorKeys();
     this.playerJumps = 0;
-    this.dying = false;
     this.input.on('pointerdown', this.jump, this);
   }
 
@@ -106,7 +106,14 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
+  addPoints(points) {
+    this.score += points;
+    this.scoreText.setText(`Score: ${this.score}`);
+  }
+
   collectCoin(player, coin) {
+    this.addPoints(10);
+
     this.tweens.add({
       targets: coin,
       y: coin.y - 100,
@@ -140,10 +147,20 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.score = 0;
+    this.scoreText = this.add.text(16, 16, 'Score: 0', {
+      fontFamily: 'Fredericka the Great, cursive',
+      fontSize: '36px',
+      fill: '#000000',
+      color: '#ffd700',
+      strokeThickness: 2,
+    });
+
     this.createCoins();
     this.createRocks();
     this.createPlayer();
     this.createPlatforms();
+
 
     this.physics.add.collider(this.player, this.platforms);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);

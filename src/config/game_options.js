@@ -19,6 +19,7 @@ const gameOptions = {
 
   // % of probability a fire appears on the platform
   FIRE_PERCENT: 25,
+  FONT_FAMILY: 'Fredericka the Great, cursive',
 };
 
 export default gameOptions;
