@@ -43,7 +43,6 @@ export default class GameScene extends Phaser.Scene {
     this.player.setGravityY(gameOptions.PLAYER_GRAVITY);
     this.player.body.setCollideWorldBounds(true);
     this.player.setBounce(0.1);
-    this.physics.add.collider(this.player, this.platforms);
     this.cursors = this.input.keyboard.createCursorKeys();
     this.playerJumps = 0;
     this.dying = false;
@@ -122,13 +121,6 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  hitRock(player) {
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    this.dying = true;
-  }
-
   createCoins() {
     this.coinGroup = this.add.group({
       removeCallback(coin) { coin.scene.coinPool.add(coin); },
@@ -149,11 +141,13 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.createCoins();
-    this.createPlatforms();
-    this.createPlayer();
     this.createRocks();
+    this.createPlayer();
+    this.createPlatforms();
+
+    this.physics.add.collider(this.player, this.platforms);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
-    this.physics.add.collider(this.player, this.rockGroup, this.hitRock, null, this);
+    this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
 
     this.timer = this.time.addEvent({
       delay: 3500, callback: this.addPlatform, callbackScope: this, loop: true,
@@ -171,8 +165,21 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
+  gotoTitleScene() {
+    this.scene.start('titleScene');
+  }
+
   gameOver() {
-    this.scene.start('PlayGame');
+    this.physics.pause();
+    this.player.setTint(0xff0000);
+    this.add.text(gameOptions.WORLD_WIDTH / 2 - 200, gameOptions.WORLD_HEIGHT / 2, 'GAME OVER', {
+      fontFamily: 'Fredericka the Great, cursive',
+      fontSize: '96px',
+      color: '#ffd700',
+      fill: '#000000',
+      strokeThickness: 5,
+    });
+    this.input.on('pointerdown', this.gotoTitleScene, this);
   }
 
   update() {
