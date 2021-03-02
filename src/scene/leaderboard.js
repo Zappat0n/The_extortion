@@ -1,16 +1,12 @@
 import Phaser from 'phaser';
 import gameOptions from '../config/game_options';
-import { getScoresRequest } from '../api/requests';
+import requests from '../api/requestManager';
 
 const sortleaderBoard = (leaderboard) => leaderboard.sort((a, b) => a.score - b.score);
 const x1 = gameOptions.WORLD_WIDTH / 2 - 200;
 const x2 = gameOptions.WORLD_WIDTH / 2;
-const displayError = (error) => {
-  console.log(error);
-};
 
 export default class LeaderboardScene extends Phaser.Scene {
-
   constructor() {
     super('leaderboardScene');
   }
@@ -36,17 +32,8 @@ export default class LeaderboardScene extends Phaser.Scene {
     });
   }
 
-  getScores() {
-    const request = getScoresRequest();
-    fetch(request)
-      .then(response => response.json())
-      .then((response) => this.displayLeaderboard(response))
-      .catch((error) => displayError(error));
-  }
-
   displayLeaderboard(response) {
     let leaderboard = response;
-    console.log(response);
     if (leaderboard && leaderboard.length > 0) {
       leaderboard = sortleaderBoard(leaderboard);
       let y = 90;
@@ -66,7 +53,9 @@ export default class LeaderboardScene extends Phaser.Scene {
       color: '#ffd700',
       strokeThickness: 5,
     });
-    this.getScores();
+
+    requests.getScores().then((data) => this.displayLeaderboard(data));
+
     this.input.on('pointerdown', this.gotoTitleScene, this);
   }
 }
