@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
     tile.body.allowGravity = false;
 
     this.createCoin(x, y);
+    this.addPoints(1);
   }
 
   addPlatform(y) {
@@ -35,9 +36,8 @@ export default class GameScene extends Phaser.Scene {
         this.addTile(i * gameOptions.TILE_WIDTH, y);
       }
     }
-    if (this.player) {
+    if (this.started) {
       this.createRock();
-      this.addPoints(1);
     }
   }
 
@@ -88,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createRock() {
-    const x = (this.player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    const x = Phaser.Math.Between(0, gameOptions.WORLD_WIDTH);
     if (this.rockPool.getLength()) {
       const rock = this.rockPool.getFirst();
       rock.x = x;
@@ -102,7 +102,7 @@ export default class GameScene extends Phaser.Scene {
       rock.setBounce(1);
       rock.setCollideWorldBounds(true);
       rock.setGravityY(gameOptions.PLAYER_GRAVITY);
-      rock.setVelocity(Phaser.Math.Between(-200, 200), 20);
+      rock.setVelocity(Phaser.Math.Between(-100, 100), 20);
       this.rockGroup.add(rock);
       this.physics.add.collider(rock, this.platforms);
     }
@@ -114,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   collectCoin(player, coin) {
-    this.addPoints(10);
+    //this.addPoints(10);
 
     this.tweens.add({
       targets: coin,
@@ -148,7 +148,19 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
+  playRound() {
+    if (this.evenRound) {
+      this.addPlatform();
+      this.evenRound = false;
+    } else {
+      this.createRock();
+      this.evenRound = true;
+    }
+  }
+
   create() {
+    this.started = false;
+    this.evenRound = false;
     this.score = 0;
     this.dead = false;
 
@@ -170,8 +182,9 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
     this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
 
+    this.started = true;
     this.timer = this.time.addEvent({
-      delay: 3500, callback: this.addPlatform, callbackScope: this, loop: true,
+      delay: 1500, callback: this.playRound, callbackScope: this, loop: true,
     });
   }
 
