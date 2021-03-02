@@ -4,10 +4,39 @@
 $font-family: 'Fredericka the Great', cursive;
 $font-family2: 'Akaya Telivigala', cursive;
 
-h1 {
-  font-family: $font-family;
+.form {
+  font: normal normal 400 1.5rem/1.5rem $font-family;
+  background-color: #ffd700;
+  width: 40%;
+  border-radius: 1rem;
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+  left: 30%;
+  margin: 2rem;
+
+  h2 {
+    font: normal normal 400 2.5rem/2.5rem $font-family;
+    text-align: center;
+    padding: 0;
+  }
+
+  .form_field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .input_name {
+    margin: 1rem;
+  }
+
+  .button {
+    display: none;
+  }
 }
 
-.form {
-  background-color: red;
+.d-none {
+  display: none;
 }

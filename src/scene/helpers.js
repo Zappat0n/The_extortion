@@ -22,6 +22,7 @@ const createForm = (game) => {
     input.setAttribute('type', type);
     input.setAttribute('name', field);
     input.setAttribute('id', field);
+    input.focus();
     if (required) {
       input.setAttribute('required', true);
     }
@@ -38,7 +39,12 @@ const createForm = (game) => {
       user: name,
       score: game.score,
     };
-    requests.setScore(user).then(() => game.scene.start('leaderboardScene'));
+    requests.setScore(user).then(() => {
+      const body = document.querySelector('body');
+      const form = document.querySelector('#main_form');
+      body.removeChild(form);
+      game.scene.start('leaderboardScene');
+    });
   }
 
   const create = () => {
@@ -49,7 +55,7 @@ const createForm = (game) => {
     form.appendChild(title);
     form.setAttribute('id', 'main_form');
     form.classList.add('form');
-    form.appendChild(addField('name', 'Name', 'text', true, null, 'input_location'));
+    form.appendChild(addField('name', 'Please introduce your name', 'text', true, null, 'input_name'));
     form.appendChild(addButton());
     form.addEventListener('submit', (e) => {
       e.preventDefault();
