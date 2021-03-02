@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
-$font-family: 'Fredericka the Great', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
 
+$font-family: 'Fredericka the Great', cursive;
+$font-family2: 'Akaya Telivigala', cursive;
 
 h1 {
   font-family: $font-family;
