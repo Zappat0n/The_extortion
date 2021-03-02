@@ -4,13 +4,13 @@ import BootScene from '../scene/boot';
 import GameScene from '../scene/game';
 import gameOptions from './game_options';
 import TitleScene from '../scene/title';
-
+import LeaderboardScene from '../scene/leaderboard';
 
 const gameConfig = {
   type: Phaser.AUTO,
   width: gameOptions.WORLD_WIDTH,
   height: gameOptions.WORLD_HEIGHT,
-  scene: [BootScene, PreloadScene, TitleScene, GameScene],
+  scene: [BootScene, PreloadScene, TitleScene, GameScene, LeaderboardScene],
   backgroundColor: 0x000000,
 
   // physics settings

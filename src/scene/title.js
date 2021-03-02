@@ -45,5 +45,9 @@ export default class TitleScene extends Phaser.Scene {
     this.gameButton.on('pointerdown', () => {
       this.scene.start('gameScene');
     });
+
+    this.scoresButton.on('pointerdown', () => {
+      this.scene.start('leaderboardScene');
+    });
   }
 }
