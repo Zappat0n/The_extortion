@@ -78,6 +78,5 @@ export default class PreloadScene extends Phaser.Scene {
     this.timer = this.time.addEvent({
       delay: 3000, callback: this.scene.start('titleScene'), callbackScope: this,
     });
-
   }
 }

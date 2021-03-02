@@ -12,8 +12,6 @@ const gameConfig = {
   height: gameOptions.WORLD_HEIGHT,
   scene: [BootScene, PreloadScene, TitleScene, GameScene, LeaderboardScene],
   backgroundColor: 0x000000,
-
-  // physics settings
   physics: {
     default: 'arcade',
   },

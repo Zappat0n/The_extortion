@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import gameOptions from '../config/game_options';
 import requests from '../api/requestManager';
+import { sortScores } from './helpers';
 
-const sortleaderBoard = (leaderboard) => leaderboard.sort((a, b) => a.score - b.score);
-const x1 = gameOptions.WORLD_WIDTH / 2 - 200;
-const x2 = gameOptions.WORLD_WIDTH / 2;
+const x1 = gameOptions.WORLD_WIDTH / 2 - 180;
+const x2 = gameOptions.WORLD_WIDTH / 2 + 120;
 
 export default class LeaderboardScene extends Phaser.Scene {
   constructor() {
@@ -18,28 +18,29 @@ export default class LeaderboardScene extends Phaser.Scene {
   addLine(data, y) {
     this.add.text(x1, y, data.user, {
       fontFamily: 'Fredericka the Great, cursive',
-      fontSize: '64px',
+      fontSize: '24px',
       fill: '#000000',
       color: '#ffd700',
-      strokeThickness: 5,
+      strokeThickness: 3,
     });
     this.add.text(x2, y, data.score, {
       fontFamily: 'Fredericka the Great, cursive',
-      fontSize: '64px',
+      fontSize: '24px',
       fill: '#000000',
       color: '#ffd700',
-      strokeThickness: 5,
+      strokeThickness: 3,
     });
   }
 
-  displayLeaderboard(response) {
-    let leaderboard = response;
+  displayLeaderboard(result) {
+    let leaderboard = result.result;
+    console.log(leaderboard.length);
     if (leaderboard && leaderboard.length > 0) {
-      leaderboard = sortleaderBoard(leaderboard);
-      let y = 90;
+      leaderboard = sortScores(leaderboard);
+      let y = 140;
       leaderboard.slice(0, 10).forEach((data) => {
         this.addLine(data, y);
-        y += 40;
+        y += 60;
       });
     }
   }
@@ -51,7 +52,7 @@ export default class LeaderboardScene extends Phaser.Scene {
       fontSize: '64px',
       fill: '#000000',
       color: '#ffd700',
-      strokeThickness: 5,
+      strokeThickness: 3,
     });
 
     requests.getScores().then((data) => this.displayLeaderboard(data));

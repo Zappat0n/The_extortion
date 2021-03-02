@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import gameOptions from '../config/game_options';
+import requests from '../api/requestManager';
+import { sortScores, createForm } from './helpers';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -148,6 +150,8 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.score = 0;
+    this.dead = false;
+
     this.scoreText = this.add.text(16, 16, 'Score: 0', {
       fontFamily: 'Fredericka the Great, cursive',
       fontSize: '36px',
@@ -186,20 +190,40 @@ export default class GameScene extends Phaser.Scene {
     this.scene.start('titleScene');
   }
 
+  checkScore(data) {
+    if (data.length > 0) {
+      const leaderboard = sortScores(data);
+      leaderboard.forEach((item) => {
+        if (this.score > item.score) {
+          createForm(this).create();
+        }
+      });
+    } else {
+      createForm(this).create();
+    }
+  }
+
   gameOver() {
+    this.dead = true;
     this.physics.pause();
+    this.timer.paused = true;
+    this.player.anims.play('turn');
     this.player.setTint(0xff0000);
-    this.add.text(gameOptions.WORLD_WIDTH / 2 - 200, gameOptions.WORLD_HEIGHT / 2, 'GAME OVER', {
+    this.add.text(gameOptions.WORLD_WIDTH / 2 - 200, 300, 'GAME OVER', {
       fontFamily: 'Fredericka the Great, cursive',
       fontSize: '96px',
       color: '#ffd700',
       fill: '#000000',
       strokeThickness: 5,
     });
-    this.input.on('pointerdown', this.gotoTitleScene, this);
+    requests.getScores().then((data) => this.checkScore(data));
   }
 
   update() {
+    if (this.dead) {
+      return;
+    }
+
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-180);
       this.player.anims.play('left', true);

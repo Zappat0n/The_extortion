@@ -7,20 +7,22 @@ const requests = {
     return Promise.resolve(
       fetch(request)
         .then(response => response.json())
-        .then((response) => {
-          return response;
-        }).catch((error) => displayError(error)));
+        .then((response) => response)
+        .catch((error) => displayError(error)),
+    );
   },
   setScore(element) {
     const data = {
-      user: element.user.value,
-      score: element.score.value,
+      user: element.user,
+      score: element.score,
     };
     const request = setScoreRequest(data);
-    fetch(request)
-      .then((response) => response.json())
-      .then((response) => response)
-      .catch((error) => displayError(error));
+    return Promise.resolve(
+      fetch(request)
+        .then((response) => response.json())
+        .then((response) => response)
+        .catch((error) => displayError(error)),
+    );
   },
 };
 
