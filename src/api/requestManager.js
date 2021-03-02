@@ -1,4 +1,4 @@
-import { getScoresRequest, setScoreRequest } from './requests';
+import { setScoreRequest } from './requests';
 import displayError from './display_errors';
 
 const requests = {
@@ -10,13 +10,6 @@ const requests = {
     const request = setScoreRequest(data);
     fetch(request)
       .then((response) => response.json())
-      .then((response) => response)
-      .catch((error) => displayError(error));
-  },
-  getScores() {
-    const request = getScoresRequest();
-    fetch(request)
-      .then(response => response.json())
       .then((response) => response)
       .catch((error) => displayError(error));
   },
