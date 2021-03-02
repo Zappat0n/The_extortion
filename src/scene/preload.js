@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
-import gameOptions from '../config/game_options';
-// preloadGame scene
+
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
     super('preloadScene');

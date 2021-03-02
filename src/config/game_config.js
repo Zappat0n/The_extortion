@@ -11,7 +11,7 @@ const gameConfig = {
   width: gameOptions.WORLD_WIDTH,
   height: gameOptions.WORLD_HEIGHT,
   scene: [BootScene, PreloadScene, TitleScene, GameScene],
-  backgroundColor: 0x0c88c7,
+  backgroundColor: 0x000000,
 
   // physics settings
   physics: {
