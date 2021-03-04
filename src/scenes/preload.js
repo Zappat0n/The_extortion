@@ -8,6 +8,11 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     this.load.image('platform', './assets/platform.png');
 
+    this.load.spritesheet('wall', './assets/blocks1.jpg', {
+      frameWidth: 512,
+      frameHeight: 512,
+    });
+
     this.load.spritesheet('player', './assets/player.png', {
       frameWidth: 28,
       frameHeight: 51,

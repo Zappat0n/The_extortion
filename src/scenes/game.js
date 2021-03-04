@@ -177,6 +177,9 @@ export default class GameScene extends Phaser.Scene {
       strokeThickness: 2,
     });
 
+    this.walls = this.add.tileSprite(0, 0, gameOptions.WORLD_WIDTH * 2,
+      gameOptions.WORLD_HEIGHT * 2, 'wall');
+
     this.createCoins();
     this.createRocks();
     this.createPlayer();
@@ -262,6 +265,7 @@ export default class GameScene extends Phaser.Scene {
       }
     }, this);
 
+    this.walls.tilePositionY -= 2;
     this.coinGroup.getChildren().forEach((coin) => {
       if (coin.y >= gameOptions.WORLD_HEIGHT - coin.height) {
         this.coinGroup.killAndHide(coin);
