@@ -61,6 +61,7 @@ const createForm = (game) => {
       e.preventDefault();
       updateLeaderboard(e.target.elements.name.value);
     });
+    return form;
   };
 
   return { create };
