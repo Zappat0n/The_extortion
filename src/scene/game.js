@@ -241,10 +241,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-180);
+      this.player.setVelocityX(-gameOptions.PLAYER_SPEED);
       this.player.anims.play('left', true);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(180);
+      this.player.setVelocityX(gameOptions.PLAYER_SPEED);
       this.player.anims.play('right', true);
     } else {
       this.player.setVelocityX(0);

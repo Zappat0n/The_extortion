@@ -6,6 +6,7 @@ const gameOptions = {
   SPACING: 180,
   // player gravity
   PLAYER_GRAVITY: 900,
+  PLAYER_SPEED: 200,
   SCROLL_SPEED: 80,
 
   // player jump force
