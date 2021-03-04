@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import PreloadScene from '../scene/preload';
-import BootScene from '../scene/boot';
-import GameScene from '../scene/game';
+import PreloadScene from '../scenes/preload';
+import BootScene from '../scenes/boot';
+import GameScene from '../scenes/game';
 import gameOptions from './game_options';
-import TitleScene from '../scene/title';
-import LeaderboardScene from '../scene/leaderboard';
+import TitleScene from '../scenes/title';
+import LeaderboardScene from '../scenes/leaderboard';
 
 const gameConfig = {
   type: Phaser.AUTO,
