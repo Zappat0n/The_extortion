@@ -34,7 +34,7 @@ const createForm = (game) => {
     return div;
   };
 
-  function updateLeaderboar(name) {
+  function updateLeaderboard(name) {
     const user = {
       user: name,
       score: game.score,
@@ -59,7 +59,7 @@ const createForm = (game) => {
     form.appendChild(addButton());
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      updateLeaderboar(e.target.elements.name.value);
+      updateLeaderboard(e.target.elements.name.value);
     });
   };
 

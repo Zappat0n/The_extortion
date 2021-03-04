@@ -3,7 +3,7 @@ const gameOptions = {
   WORLD_HEIGHT: 750,
   TILE_HEIGHT: 32,
   TILE_WIDTH: 32,
-  SPACING: 150,
+  SPACING: 180,
   // player gravity
   PLAYER_GRAVITY: 900,
   SCROLL_SPEED: 80,

@@ -19,8 +19,9 @@ export default class GameScene extends Phaser.Scene {
     tile.body.setImmovable(true);
     tile.body.allowGravity = false;
 
-    this.createCoin(x, y);
-    this.addPoints(1);
+    if (this.started) {
+      this.createCoin(x, y);
+    }
   }
 
   addPlatform(y) {
@@ -30,7 +31,8 @@ export default class GameScene extends Phaser.Scene {
     const tilesNeeded = Math.ceil(gameOptions.WORLD_WIDTH / gameOptions.TILE_WIDTH);
     const hole = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
     const hole2 = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
-    const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1, hole2 + 2, hole2 + 3];
+    const hole3 = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
+    const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1, hole2 + 2, hole2 + 3, hole3, hole3 + 1, hole3 + 2, hole3 + 3];
     for (let i = 0; i < tilesNeeded; i += 1) {
       if (!holes.includes(i)) {
         this.addTile(i * gameOptions.TILE_WIDTH, y);
@@ -38,6 +40,7 @@ export default class GameScene extends Phaser.Scene {
     }
     if (this.started) {
       this.createRock();
+      this.addPoints(10);
     }
   }
 
@@ -77,11 +80,10 @@ export default class GameScene extends Phaser.Scene {
         coin.visible = true;
         this.coinPool.remove(coin);
       } else {
-        const coin = this.physics.add.sprite(x, y - 45, 'coin');
-        coin.setImmovable(true);
-        coin.setVelocityY(gameOptions.SCROLL_SPEED);
+        const coin = this.physics.add.sprite(x, y, 'coin');
+        coin.setCollideWorldBounds(true);
+        coin.setGravityY(gameOptions.PLAYER_GRAVITY);
         coin.anims.play('rotate');
-        coin.setDepth(2);
         this.coinGroup.add(coin);
       }
     }
@@ -102,9 +104,8 @@ export default class GameScene extends Phaser.Scene {
       rock.setBounce(1);
       rock.setCollideWorldBounds(true);
       rock.setGravityY(gameOptions.PLAYER_GRAVITY);
-      rock.setVelocity(Phaser.Math.Between(-100, 100), 20);
+      rock.setVelocityX(Phaser.Math.Between(-60, 60), 20);
       this.rockGroup.add(rock);
-      this.physics.add.collider(rock, this.platforms);
     }
   }
 
@@ -114,7 +115,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   collectCoin(player, coin) {
-    //this.addPoints(10);
+    if (this.started) {
+      this.addPoints(10);
+    }
 
     this.tweens.add({
       targets: coin,
@@ -179,12 +182,14 @@ export default class GameScene extends Phaser.Scene {
 
 
     this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.coinGroup, this.platforms);
+    this.physics.add.collider(this.rockGroup, this.platforms);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
     this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
 
     this.started = true;
     this.timer = this.time.addEvent({
-      delay: 1500, callback: this.playRound, callbackScope: this, loop: true,
+      delay: 1000, callback: this.playRound, callbackScope: this, loop: true,
     });
   }
 
@@ -204,16 +209,12 @@ export default class GameScene extends Phaser.Scene {
   }
 
   checkScore(data) {
-    if (data.length > 0) {
-      const leaderboard = sortScores(data);
-      leaderboard.forEach((item) => {
-        if (this.score > item.score) {
-          createForm(this).create();
-        }
-      });
-    } else {
-      createForm(this).create();
+    const leaderboard = sortScores(data.result);
+    if (leaderboard.slice(0, 8).every((item) => item.score > this.score)) {
+      this.input.on('pointerdown', this.gotoTitleScene, this);
+      return;
     }
+    createForm(this).create();
   }
 
   gameOver() {
@@ -253,6 +254,7 @@ export default class GameScene extends Phaser.Scene {
       this.gameOver();
     }
 
+
     this.rockGroup.getChildren().forEach((rock) => {
       if (rock.y >= gameOptions.WORLD_HEIGHT - rock.height) {
         this.rockGroup.killAndHide(rock);
@@ -261,7 +263,7 @@ export default class GameScene extends Phaser.Scene {
     }, this);
 
     this.coinGroup.getChildren().forEach((coin) => {
-      if (coin.y < -coin.displayWidth / 2) {
+      if (coin.y >= gameOptions.WORLD_HEIGHT - coin.height) {
         this.coinGroup.killAndHide(coin);
         this.coinGroup.remove(coin);
       }
