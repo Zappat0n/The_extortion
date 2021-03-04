@@ -6,7 +6,6 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // load images
     this.load.image('boot_image', './assets/anirudh-3esjG-nlgyk-unsplash.jpg');
   }
 

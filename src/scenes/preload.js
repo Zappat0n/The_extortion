@@ -8,13 +8,11 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     this.load.image('platform', './assets/platform.png');
 
-    // player is a sprite sheet made by 24x48 pixels
     this.load.spritesheet('player', './assets/player.png', {
       frameWidth: 28,
       frameHeight: 51,
     });
 
-    // the coin is a sprite sheet made by 20x20 pixels
     this.load.spritesheet('coin', './assets/coin.png', {
       frameWidth: 20,
       frameHeight: 20,
@@ -22,7 +20,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.image('rock', './assets/rock.png');
 
-    // the firecamp is a sprite sheet made by 32x58 pixels
     this.load.spritesheet('fire', './assets/fire.png', {
       frameWidth: 40,
       frameHeight: 70,

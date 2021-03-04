@@ -251,11 +251,9 @@ export default class GameScene extends Phaser.Scene {
       this.player.anims.play('turn');
     }
 
-
     if (this.player.body.position.y >= gameOptions.WORLD_HEIGHT - this.player.body.height) {
       this.gameOver();
     }
-
 
     this.rockGroup.getChildren().forEach((rock) => {
       if (rock.y >= gameOptions.WORLD_HEIGHT - rock.height) {
