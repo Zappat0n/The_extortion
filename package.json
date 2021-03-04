@@ -8,7 +8,8 @@
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
     "start": "webpack serve --open --mode development",
-    "eslint": "npx eslint . --fix"
+    "eslint": "npx eslint . --fix",
+    "watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,9 @@
     "eslint-config-airbnb-base": "14.1.x",
     "eslint-plugin-import": "2.20.x",
     "html-webpack-plugin": "^5.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.3.1",
     "mini-css-extract-plugin": "^1.3.6",
     "sass": "^1.32.7",
     "sass-loader": "^11.0.1",
@@ -48,5 +51,21 @@
   },
   "dependencies": {
     "phaser": "^3.52.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/mocks/fileMock.js"
+    }
   }
 }

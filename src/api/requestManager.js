@@ -7,7 +7,7 @@ const requests = {
     content.textContent = error;
     div.appendChild(content);
     document.querySelector('body').appendChild(div);
-    return true;
+    return content;
   },
   getScores() {
     const request = getScoresRequest();
