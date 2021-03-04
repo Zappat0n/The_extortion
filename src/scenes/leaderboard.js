@@ -32,16 +32,17 @@ export default class LeaderboardScene extends Phaser.Scene {
     });
   }
 
-  displayLeaderboard(result) {
+  displayLeaderboard(result, test = false) {
     let leaderboard = result.result;
     if (leaderboard && leaderboard.length > 0) {
       leaderboard = sortScores(leaderboard);
       let y = 140;
       leaderboard.slice(0, 8).forEach((data) => {
-        this.addLine(data, y);
+        if (!test) this.addLine(data, y);
         y += 60;
       });
     }
+    return leaderboard.length;
   }
 
   create() {

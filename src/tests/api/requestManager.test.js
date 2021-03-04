@@ -5,4 +5,3 @@ test('displayError should a DOM Component with the error', () => {
   expect(content.textContent).toBe('This error');
 });
 
-
