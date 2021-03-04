@@ -32,7 +32,8 @@ export default class GameScene extends Phaser.Scene {
     const hole = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
     const hole2 = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
     const hole3 = Math.floor(Math.random() * (tilesNeeded - 3)) + 1;
-    const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1, hole2 + 2, hole2 + 3, hole3, hole3 + 1, hole3 + 2, hole3 + 3];
+    const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1,
+      hole2 + 2, hole2 + 3, hole3, hole3 + 1, hole3 + 2, hole3 + 3];
     for (let i = 0; i < tilesNeeded; i += 1) {
       if (!holes.includes(i)) {
         this.addTile(i * gameOptions.TILE_WIDTH, y);
@@ -45,7 +46,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPlayer() {
-    this.player = this.physics.add.sprite(gameOptions.WORLD_WIDTH / 2, gameOptions.WORLD_HEIGHT - (gameOptions.SPACING * 2 + (3 * gameOptions.TILE_HEIGHT)), 'player');
+    this.player = this.physics.add.sprite(gameOptions.WORLD_WIDTH / 2,
+      gameOptions.WORLD_HEIGHT - (gameOptions.SPACING * 2 + (3 * gameOptions.TILE_HEIGHT)), 'player');
     this.player.setGravityY(gameOptions.PLAYER_GRAVITY);
     this.player.body.setCollideWorldBounds(true);
     this.player.setBounce(0.1);

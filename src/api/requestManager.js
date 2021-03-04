@@ -1,5 +1,12 @@
 import { getScoresRequest, setScoreRequest } from './requests';
-import displayError from './display_errors';
+
+const displayError = (error) => {
+  const div = document.createElement('div');
+  const content = document.createElement('h2');
+  content.textContent = error;
+  div.appendChild(content);
+  document.querySelector('body').appendChild(div);
+};
 
 const requests = {
   getScores() {
