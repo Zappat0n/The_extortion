@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
     "start": "webpack serve --open --mode development",
@@ -25,6 +25,7 @@
     "@babel/preset-env": "^7.13.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "10.1.x",
+    "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.2",
