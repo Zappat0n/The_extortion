@@ -30,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  addPlatform(y) {
+  addPlatform(y, noHoles = false) {
     if (typeof (y) === 'undefined') {
       y = -gameOptions.TILE_HEIGHT;
     }
@@ -41,7 +41,7 @@ export default class GameScene extends Phaser.Scene {
     const holes = [hole, hole + 1, hole + 2, hole + 3, hole2, hole2 + 1,
       hole2 + 2, hole2 + 3, hole3, hole3 + 1, hole3 + 2, hole3 + 3];
     for (let i = 0; i < tilesNeeded; i += 1) {
-      if (!holes.includes(i)) {
+      if (!holes.includes(i) || noHoles) {
         this.addCloud(i * gameOptions.TILE_WIDTH, y);
       }
     }
@@ -66,7 +66,7 @@ export default class GameScene extends Phaser.Scene {
     const bottom = gameOptions.WORLD_HEIGHT - gameOptions.TILE_HEIGHT;
     const top = gameOptions.TILE_HEIGHT - 40;
     for (let y = bottom; y > top - gameOptions.TILE_HEIGHT; y -= gameOptions.SPACING) {
-      this.addPlatform(y);
+      this.addPlatform(y, y > gameOptions.WORLD_HEIGHT / 2);
     }
   }
 
