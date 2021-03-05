@@ -25,11 +25,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.image('rock', './assets/rock.png');
 
-    this.load.spritesheet('fire', './assets/fire.png', {
-      frameWidth: 40,
-      frameHeight: 70,
-    });
-
     this.load.spritesheet('bat', './assets/bat.png', {
       frameWidth: 32,
       frameHeight: 32,
@@ -81,14 +76,6 @@ export default class PreloadScene extends Phaser.Scene {
         end: 3,
       }),
       frameRate: 15,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'rotate',
-
-      frameRate: 15,
-      yoyo: true,
       repeat: -1,
     });
 
