@@ -26,7 +26,7 @@ export default class GameScene extends Phaser.Scene {
     }
     if (this.started) {
       this.createCoin(x, y);
-      this.createBall(x, y);
+      this.createBat(x, y);
     }
   }
 
@@ -70,22 +70,22 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  createBall(x, y) {
-    if (Phaser.Math.Between(1, 100) <= gameOptions.BALL_PERCENT) {
-      if (this.ballPool.getLength()) {
-        const ball = this.ballPool.getFirst();
-        ball.x = x;
-        ball.y = y;
-        ball.alpha = 1;
-        ball.active = true;
-        ball.visible = true;
-        this.ballPool.remove(ball);
+  createBat(x, y) {
+    if (Phaser.Math.Between(1, 100) <= gameOptions.BAT_PERCENT) {
+      if (this.batPool.getLength()) {
+        const bat = this.batPool.getFirst();
+        bat.x = x;
+        bat.y = y;
+        bat.alpha = 1;
+        bat.active = true;
+        bat.visible = true;
+        this.batPool.remove(bat);
       } else {
-        const ball = this.physics.add.sprite(x, y, 'ball');
-        ball.setCollideWorldBounds(true);
-        ball.setGravityY(gameOptions.PLAYER_GRAVITY);
-        ball.anims.play('shine');
-        this.ballGroup.add(ball);
+        const bat = this.physics.add.sprite(x, y, 'bat');
+        bat.setCollideWorldBounds(true);
+        bat.setGravityY(gameOptions.PLAYER_GRAVITY);
+        bat.anims.play('fly');
+        this.batGroup.add(bat);
       }
     }
   }
@@ -172,12 +172,12 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  createBalls() {
-    this.ballGroup = this.add.group({
-      removeCallback(ball) { ball.scene.ballPool.add(ball); },
+  createBats() {
+    this.batGroup = this.add.group({
+      removeCallback(bat) { bat.scene.batPool.add(bat); },
     });
-    this.ballPool = this.add.group({
-      removeCallback(ball) { ball.scene.ballGroup.add(ball); },
+    this.batPool = this.add.group({
+      removeCallback(bat) { bat.scene.batGroup.add(bat); },
     });
   }
 
@@ -220,7 +220,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.createClouds();
     this.createCoins();
-    this.createBalls();
+    this.createBats();
     this.createRocks();
     this.createPlayer();
     this.createPlatforms();
@@ -229,10 +229,10 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.cloudGroup);
     this.physics.add.collider(this.coinGroup, this.cloudGroup);
     this.physics.add.collider(this.rockGroup, this.cloudGroup);
-    this.physics.add.collider(this.ballGroup, this.cloudGroup);
+    this.physics.add.collider(this.batGroup, this.cloudGroup);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
     this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
-    this.physics.add.collider(this.player, this.ballGroup, this.gameOver, null, this);
+    this.physics.add.collider(this.player, this.batGroup, this.gameOver, null, this);
 
     this.started = true;
     this.timer = this.time.addEvent({
@@ -314,6 +314,7 @@ export default class GameScene extends Phaser.Scene {
     this.removeItemsOutOfScreen(this.cloudGroup);
     this.removeItemsOutOfScreen(this.rockGroup);
     this.removeItemsOutOfScreen(this.coinGroup);
+    this.removeItemsOutOfScreen(this.batGroup);
 
     this.walls.tilePositionY -= 2;
   }

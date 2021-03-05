@@ -17,7 +17,7 @@ const gameOptions = {
 
   COIN_PERCENT: 5,
 
-  BALL_PERCENT: 5,
+  BAT_PERCENT: 5,
   FONT_FAMILY: 'Fredericka the Great, cursive',
 };
 

@@ -30,7 +30,7 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 70,
     });
 
-    this.load.spritesheet('ball', './assets/plasmaballlpc.png', {
+    this.load.spritesheet('bat', './assets/bat.png', {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -75,8 +75,8 @@ export default class PreloadScene extends Phaser.Scene {
       repeat: -1,
     });
     this.anims.create({
-      key: 'shine',
-      frames: this.anims.generateFrameNumbers('ball', {
+      key: 'fly',
+      frames: this.anims.generateFrameNumbers('bat', {
         start: 0,
         end: 3,
       }),
