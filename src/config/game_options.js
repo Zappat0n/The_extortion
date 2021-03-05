@@ -15,11 +15,9 @@ const gameOptions = {
   // consecutive jumps allowed
   JUMPS: 2,
 
-  // % of probability a coin appears on the platform
   COIN_PERCENT: 5,
 
-  // % of probability a fire appears on the platform
-  FIRE_PERCENT: 25,
+  BALL_PERCENT: 5,
   FONT_FAMILY: 'Fredericka the Great, cursive',
 };
 

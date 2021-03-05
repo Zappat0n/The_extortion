@@ -26,6 +26,7 @@ export default class GameScene extends Phaser.Scene {
     }
     if (this.started) {
       this.createCoin(x, y);
+      this.createBall(x, y);
     }
   }
 
@@ -66,6 +67,26 @@ export default class GameScene extends Phaser.Scene {
     const top = gameOptions.TILE_HEIGHT - 40;
     for (let y = bottom; y > top - gameOptions.TILE_HEIGHT; y -= gameOptions.SPACING) {
       this.addPlatform(y);
+    }
+  }
+
+  createBall(x, y) {
+    if (Phaser.Math.Between(1, 100) <= gameOptions.BALL_PERCENT) {
+      if (this.ballPool.getLength()) {
+        const ball = this.ballPool.getFirst();
+        ball.x = x;
+        ball.y = y;
+        ball.alpha = 1;
+        ball.active = true;
+        ball.visible = true;
+        this.ballPool.remove(ball);
+      } else {
+        const ball = this.physics.add.sprite(x, y, 'ball');
+        ball.setCollideWorldBounds(true);
+        ball.setGravityY(gameOptions.PLAYER_GRAVITY);
+        ball.anims.play('shine');
+        this.ballGroup.add(ball);
+      }
     }
   }
 
@@ -151,6 +172,15 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
+  createBalls() {
+    this.ballGroup = this.add.group({
+      removeCallback(ball) { ball.scene.ballPool.add(ball); },
+    });
+    this.ballPool = this.add.group({
+      removeCallback(ball) { ball.scene.ballGroup.add(ball); },
+    });
+  }
+
   createRocks() {
     this.rockGroup = this.add.group({
       removeCallback(rock) { rock.scene.rockPool.add(rock); },
@@ -165,7 +195,7 @@ export default class GameScene extends Phaser.Scene {
       this.addPlatform();
       this.evenRound = false;
     } else {
-      this.createRock();
+      // this.createRock();
       this.evenRound = true;
     }
   }
@@ -190,6 +220,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.createClouds();
     this.createCoins();
+    this.createBalls();
     this.createRocks();
     this.createPlayer();
     this.createPlatforms();
@@ -198,8 +229,10 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.cloudGroup);
     this.physics.add.collider(this.coinGroup, this.cloudGroup);
     this.physics.add.collider(this.rockGroup, this.cloudGroup);
+    this.physics.add.collider(this.ballGroup, this.cloudGroup);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
     this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
+    this.physics.add.collider(this.player, this.ballGroup, this.gameOver, null, this);
 
     this.started = true;
     this.timer = this.time.addEvent({

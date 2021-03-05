@@ -30,6 +30,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 70,
     });
 
+    this.load.spritesheet('ball', './assets/plasmaballlpc.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.image('button1', './assets/button1.png');
   }
 
@@ -69,6 +74,16 @@ export default class PreloadScene extends Phaser.Scene {
       yoyo: true,
       repeat: -1,
     });
+    this.anims.create({
+      key: 'shine',
+      frames: this.anims.generateFrameNumbers('ball', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
     this.anims.create({
       key: 'rotate',
 
