@@ -8,17 +8,22 @@ export default class GameScene extends Phaser.Scene {
     super('gameScene');
   }
 
-  addTile(x, y) {
-    const tile = this.platforms.getFirstDead();
-    tile.x = x;
-    tile.y = y;
-    tile.active = true;
-    tile.visible = true;
-    this.physics.add.existing(tile);
-    tile.body.setVelocityY(gameOptions.SCROLL_SPEED);
-    tile.body.setImmovable(true);
-    tile.body.allowGravity = false;
-
+  addCloud(x, y) {
+    if (this.cloudPool.getLength()) {
+      const cloud = this.cloudPool.getFirst();
+      cloud.x = x;
+      cloud.y = y;
+      cloud.active = true;
+      cloud.visible = true;
+      this.cloudPool.remove(cloud);
+    } else {
+      const cloud = this.physics.add.sprite(x, y, 'platform');
+      this.physics.add.existing(cloud);
+      cloud.body.setVelocityY(gameOptions.SCROLL_SPEED);
+      cloud.body.setImmovable(true);
+      cloud.body.allowGravity = false;
+      this.cloudGroup.add(cloud);
+    }
     if (this.started) {
       this.createCoin(x, y);
     }
@@ -36,7 +41,7 @@ export default class GameScene extends Phaser.Scene {
       hole2 + 2, hole2 + 3, hole3, hole3 + 1, hole3 + 2, hole3 + 3];
     for (let i = 0; i < tilesNeeded; i += 1) {
       if (!holes.includes(i)) {
-        this.addTile(i * gameOptions.TILE_WIDTH, y);
+        this.addCloud(i * gameOptions.TILE_WIDTH, y);
       }
     }
     if (this.started) {
@@ -57,13 +62,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPlatforms() {
-    this.platforms = this.add.group();
-    this.platforms.enableBody = true;
-    this.platforms.createMultiple({
-      key: 'platform',
-      quantity: 2500,
-      active: false,
-    });
     const bottom = gameOptions.WORLD_HEIGHT - gameOptions.TILE_HEIGHT;
     const top = gameOptions.TILE_HEIGHT - 40;
     for (let y = bottom; y > top - gameOptions.TILE_HEIGHT; y -= gameOptions.SPACING) {
@@ -135,6 +133,15 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
+  createClouds() {
+    this.cloudGroup = this.add.group({
+      removeCallback(cloud) { cloud.scene.cloudPool.add(cloud); },
+    });
+    this.cloudPool = this.add.group({
+      removeCallback(cloud) { cloud.scene.cloudGroup.add(cloud); },
+    });
+  }
+
   createCoins() {
     this.coinGroup = this.add.group({
       removeCallback(coin) { coin.scene.coinPool.add(coin); },
@@ -181,15 +188,16 @@ export default class GameScene extends Phaser.Scene {
     this.walls = this.add.tileSprite(0, 0, gameOptions.WORLD_WIDTH * 2,
       gameOptions.WORLD_HEIGHT * 2, 'wall');
 
+    this.createClouds();
     this.createCoins();
     this.createRocks();
     this.createPlayer();
     this.createPlatforms();
 
 
-    this.physics.add.collider(this.player, this.platforms);
-    this.physics.add.collider(this.coinGroup, this.platforms);
-    this.physics.add.collider(this.rockGroup, this.platforms);
+    this.physics.add.collider(this.player, this.cloudGroup);
+    this.physics.add.collider(this.coinGroup, this.cloudGroup);
+    this.physics.add.collider(this.rockGroup, this.cloudGroup);
     this.physics.add.overlap(this.player, this.coinGroup, this.collectCoin, null, this);
     this.physics.add.collider(this.player, this.rockGroup, this.gameOver, null, this);
 
@@ -239,6 +247,15 @@ export default class GameScene extends Phaser.Scene {
     requests.getScores().then((data) => this.checkScore(data));
   }
 
+  removeItemsOutOfScreen(group) {
+    group.getChildren().forEach((item) => {
+      if (item.y >= gameOptions.WORLD_HEIGHT) {
+        group.killAndHide(item);
+        group.remove(item);
+      }
+    }, this);
+  }
+
   update() {
     if (this.dead) {
       return;
@@ -259,19 +276,10 @@ export default class GameScene extends Phaser.Scene {
       this.gameOver();
     }
 
-    this.rockGroup.getChildren().forEach((rock) => {
-      if (rock.y >= gameOptions.WORLD_HEIGHT - rock.height) {
-        this.rockGroup.killAndHide(rock);
-        this.rockGroup.remove(rock);
-      }
-    }, this);
+    this.removeItemsOutOfScreen(this.rockGroup);
+    this.removeItemsOutOfScreen(this.coinGroup);
+    this.removeItemsOutOfScreen(this.cloudGroup);
 
     this.walls.tilePositionY -= 2;
-    this.coinGroup.getChildren().forEach((coin) => {
-      if (coin.y >= gameOptions.WORLD_HEIGHT - coin.height) {
-        this.coinGroup.killAndHide(coin);
-        this.coinGroup.remove(coin);
-      }
-    }, this);
   }
 }
