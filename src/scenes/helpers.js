@@ -34,7 +34,7 @@ const createForm = (game) => {
     return div;
   };
 
-  function updateLeaderboard(name) {
+  const updateLeaderboard = (name) => {
     const user = {
       user: name,
       score: game.score,
@@ -45,7 +45,7 @@ const createForm = (game) => {
       body.removeChild(form);
       game.scene.start('leaderboardScene');
     });
-  }
+  };
 
   const create = () => {
     const form = document.createElement('form');
