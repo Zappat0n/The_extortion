@@ -42,6 +42,18 @@ export default class TitleScene extends Phaser.Scene {
       color: '#ffd700',
     });
 
+    this.add.text(gameOptions.WORLD_WIDTH / 2 - 400, 600, 'Cursor left: LEFT\nCursor right: RIGHT\nLeft click: JUMP', {
+      fontFamily: gameOptions.FONT_FAMILY,
+      fontSize: '28px',
+      color: '#ffd700',
+      fill: '#000000',
+      align: 'center',
+      fixedWidth: '800',
+      wordWrap: true,
+      useAdvancedWrap: true,
+      strokeThickness: 5,
+    });
+
     this.gameButton.on('pointerdown', () => {
       this.scene.start('gameScene');
     });
