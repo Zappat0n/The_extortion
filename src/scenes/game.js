@@ -249,7 +249,7 @@ export default class GameScene extends Phaser.Scene {
 
   removeItemsOutOfScreen(group) {
     group.getChildren().forEach((item) => {
-      if (item.y >= gameOptions.WORLD_HEIGHT) {
+      if (item.y >= gameOptions.WORLD_HEIGHT - (group === this.cloudGroup ? 0 : item.height)) {
         group.killAndHide(item);
         group.remove(item);
       }
@@ -267,6 +267,8 @@ export default class GameScene extends Phaser.Scene {
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(gameOptions.PLAYER_SPEED);
       this.player.anims.play('right', true);
+    } else if (this.cursors.up.isDown) {
+      this.jump();
     } else {
       this.player.setVelocityX(0);
       this.player.anims.play('turn');
@@ -276,9 +278,9 @@ export default class GameScene extends Phaser.Scene {
       this.gameOver();
     }
 
+    this.removeItemsOutOfScreen(this.cloudGroup);
     this.removeItemsOutOfScreen(this.rockGroup);
     this.removeItemsOutOfScreen(this.coinGroup);
-    this.removeItemsOutOfScreen(this.cloudGroup);
 
     this.walls.tilePositionY -= 2;
   }
