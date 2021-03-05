@@ -1,7 +1,9 @@
 import LeaderboardScene from '../../scenes/leaderboard';
+import { mockGetScores, mockGetManyScores } from '../mocks/functionsMock';
 
 describe('Game Scene', () => {
-  const data = { result: [{ user: 'A', score: 1 }, { user: 'B', score: 3 }, { user: 'C', score: 2 }] };
+  const data = mockGetScores();
+  const dataMany = mockGetManyScores();
   const scene = new LeaderboardScene({
     active: true,
   });
@@ -10,8 +12,15 @@ describe('Game Scene', () => {
     expect(scene.sys.config).toBe('leaderboardScene');
   });
 
-  test('Display leaderboard', () => {
+  test('Display leaderboard, display all the elements', () => {
     expect(scene.displayLeaderboard(data, true)).toBe(3);
+  });
+
+  test('Display leaderboard, does note throw an error', () => {
     expect(() => scene.displayLeaderboard(data, true)).not.toThrow();
+  });
+
+  test('Display leaderboard, display ONLY 8 the elements', () => {
+    expect(scene.displayLeaderboard(dataMany, true)).toBe(8);
   });
 });

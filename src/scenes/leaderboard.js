@@ -35,9 +35,9 @@ export default class LeaderboardScene extends Phaser.Scene {
   displayLeaderboard(result, test = false) {
     let leaderboard = result.result;
     if (leaderboard && leaderboard.length > 0) {
-      leaderboard = sortScores(leaderboard);
+      leaderboard = sortScores(leaderboard).slice(0, 8);
       let y = 140;
-      leaderboard.slice(0, 8).forEach((data) => {
+      leaderboard.forEach((data) => {
         if (!test) this.addLine(data, y);
         y += 60;
       });

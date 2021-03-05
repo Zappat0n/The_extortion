@@ -176,6 +176,7 @@ export default class GameScene extends Phaser.Scene {
       color: '#ffd700',
       strokeThickness: 2,
     });
+    this.scoreText.setDepth(99);
 
     this.walls = this.add.tileSprite(0, 0, gameOptions.WORLD_WIDTH * 2,
       gameOptions.WORLD_HEIGHT * 2, 'wall');
