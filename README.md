@@ -48,7 +48,7 @@ Enjoy the game!
 
 ## Live Demo
 
-[Live Demo Link](https://mv-todo-list.netlify.app/)
+[Live Demo Link](https://zappat0n.github.io/The_extortion/)
 
 
 ## Getting Started
