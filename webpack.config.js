@@ -34,7 +34,7 @@ module.exports = {
     }),
   ],
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'images/[hash][ext]',
     publicPath: '',
@@ -72,13 +72,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          name: 'production-dependencies',
-          chunks: 'initial',
-          minChunks: 2,
-        },
-      },
+      chunks: 'all',
     },
   },
 };
