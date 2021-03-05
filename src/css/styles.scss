@@ -4,6 +4,11 @@
 $font-family: 'Fredericka the Great', cursive;
 $font-family2: 'Akaya Telivigala', cursive;
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .form {
   font: normal normal 400 1.5rem/1.5rem $font-family;
   background-color: #ffd700;
