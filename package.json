@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
-    "start": "webpack serve --open --mode development"
+    "start": "webpack serve --open --mode development",
+    "eslint": "npx eslint . --fix",
+    "watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -21,18 +23,23 @@
   },
   "homepage": "",
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.13.9",
     "@babel/preset-env": "^7.13.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "10.1.x",
+    "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.2",
     "eslint": "6.8.x",
     "eslint-config-airbnb-base": "14.1.x",
+    "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-import": "2.20.x",
     "html-webpack-plugin": "^5.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.3.1",
     "mini-css-extract-plugin": "^1.3.6",
-    "phaser": "^3.52.0",
     "sass": "^1.32.7",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
@@ -43,5 +50,24 @@
     "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "phaser": "^3.52.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/mocks/fileMock.js"
+    }
   }
 }

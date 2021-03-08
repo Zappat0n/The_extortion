@@ -13,11 +13,11 @@ module.exports = {
     contentBase: './dist',
   },
   entry: {
-    index: './src/index.js'
+    index: './src/index.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'My Todo List',
+      title: 'The extortion',
     }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? '[name].css' : '[name].[contenthash].css',
@@ -30,11 +30,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
-      'typeof WEBGL_RENDERER': JSON.stringify(true)
+      'typeof WEBGL_RENDERER': JSON.stringify(true),
     }),
   ],
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'images/[hash][ext]',
     publicPath: '',
@@ -52,10 +52,10 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              "@babel/preset-env",
-            ]
-          }
-        }
+              '@babel/preset-env',
+            ],
+          },
+        },
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -72,13 +72,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          name: 'production-dependencies',
-          chunks: 'initial',
-          minChunks: 2,
-        },
-      },
+      chunks: 'all',
     },
   },
 };

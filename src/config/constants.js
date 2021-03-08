@@ -1,4 +1,0 @@
-const GAME_WIDTH = 1334;
-const GAME_HEIGHT = 750;
-
-export { GAME_WIDTH, GAME_HEIGHT }
