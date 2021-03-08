@@ -1,14 +1,10 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 # The Extortion
 
-## About the Project
-
-Game developed in JavaScript using [Phaser 3](https://www.phaser.io/phaser3) game framework.
+## Game overview
 
 Þrymr has stolen Thor's hammer to extort the gods into giving him Freyja as his wife.
 Would you travel to Jötunheimr and climb the walls of Útgarðar to help Thor recover his hammer?
-
-Use right and left keyboard keys to move, and mouse left click (or up keyboard key) to jump.
 
 The goal of the game is to climb the walls and collect the coins to get as many points as possible.
 
@@ -27,7 +23,11 @@ Enjoy the game!
 
 ## Table of Contents
 
-* [About the Project](#about-the-project)
+* [Game overview](#game-overview)
+* [Game controls](#game-controls)
+* [Game flow](#game-flow)
+* [Characters](#characters)
+* [Score](#score)
 * [Built With](#built-with)
 * [Live Demo](#live-demo)
 * [Getting Started](#getting-started)
@@ -36,6 +36,35 @@ Enjoy the game!
 * [Show your support](#show-your-support)
 * [License](#license)
 * [Acknowledgements](#acknowledgements)
+
+## Game Controls
+
+* Left and right keys to move
+* Left mouse click to jump
+
+## Characters
+
+### Thor
+![Thor](./src/assets/player_frame.png)<br>
+Move Thor right and left, and jump to get to the top of the walls.
+
+### Rocks
+![Rock](./src/assets/rock.png)<br>
+Rocks thrown by Þrymr. Avoid them at all cost.
+
+### Bats
+![Bat](./src/assets/bat_frame.png)<br>
+Þrymr's pets. They will suck your blood if they hit you.
+
+### Coins
+![Coin](./src/assets/coin_frame.png)<br>
+Get as much coins as you can to increase your score.
+
+## Score
+You get points by getting coins and by each platform that is added to the game.
+<br>
+## Game Flow
+![Game_flow](./src/assets/game_flow.png)
 
 ## Built With
 
@@ -98,6 +127,7 @@ This project is [MIT](./LICENSE) licensed.
 
 
 ## Acknowledgements
+* Game developed in JavaScript using [Phaser 3](https://www.phaser.io/phaser3)
 * [Photo by ANIRUDH](https://unsplash.com/@lanirudhreddy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText) from [Unsplash](https://unsplash.com/s/photos/thor?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText)
 * [Player generator](http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/#?=eyes_brown&armor=chest_plate&hair=long_brunette&jacket=none&shoes=boots_metal&spikes=none&mail=chain)
 * [Clouds](https://unsplash.com/s/photos/thor?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText)
